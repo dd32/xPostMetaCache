@@ -4,7 +4,7 @@ namespace dd32\xPostMetaCache;
  * Plugin Name: xPostMetaCache
  * Author: Dion Hulse
  */
-
+//return;
 xPostMetaCache::instance();
 class xPostMetaCache {
 	protected $settings = [
@@ -49,7 +49,7 @@ class xPostMetaCache {
 		global $wpdb;
 
 		if (
-			isset( $clause['key'] ) &&
+			isset( $clause['key'] ) && is_string( $clause['key'] ) &&
 			isset( $this->fields[ $clause['key'] ] ) &&
 			( ! isset( $clause['compare_key'] ) || '=' === $clause['compare_key'] )
 		) {
