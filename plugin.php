@@ -71,6 +71,7 @@ class xPostMetaCache {
 			$sql['where']
 		);
 
+		// NOT EXISTS
 		$sql['where'] = preg_replace(
 			"/{$wpdb->xpostmetacache}\.([^.]+)\.post_id (IS NULL)/",
 			"{$wpdb->xpostmetacache}.\\1 \\2",
