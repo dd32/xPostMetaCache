@@ -44,22 +44,11 @@ class xPostMetaCache {
 		return $this;
 	}
 
-	protected $supported_compares = [
-		'IN',
-		'NOT EXISTS',
-		'EXISTS',
-		'=',
-		'!='
-	];
-	protected function supported_compare( $clause ) {
-		return in_array( $clause['compare'], $this->supported_compares );
-	}
-
 	protected $useless_joins = [];
 	function meta_query_find_compatible_table_alias( $alias, $clause, $parent_query, $meta_query ) {
 		global $wpdb;
 
-		if ( isset( $clause['key'] ) && isset( $this->fields[ $clause['key'] ] ) && $this->supported_compare( $clause ) ) {
+		if ( isset( $clause['key'] ) && isset( $this->fields[ $clause['key'] ] ) ) {
 			if ( $alias ) {
 				$this->useless_joins[ $alias ] = true;
 			}
