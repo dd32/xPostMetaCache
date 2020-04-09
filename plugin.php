@@ -44,7 +44,6 @@ class xPostMetaCache {
 		return $this;
 	}
 
-
 	protected $useless_joins = [];
 	function meta_query_find_compatible_table_alias( $alias, $clause, $parent_query, $meta_query ) {
 		global $wpdb;
@@ -73,15 +72,22 @@ class xPostMetaCache {
 		);
 
 		$sql['where'] = preg_replace(
-			"/{$wpdb->xpostmetacache}\.([^.]+).post_id (IS NULL)/",
+			"/{$wpdb->xpostmetacache}\.([^.]+)\.post_id (IS NULL)/",
 			"{$wpdb->xpostmetacache}.\\1 \\2",
 			$sql['where']
 		);
 
 		// EXISTS
 		$sql['where'] = preg_replace(
-			"/{$wpdb->xpostmetacache}\.([^.]+).meta_key = '[^']+'/",
+			"/{$wpdb->xpostmetacache}\.([^.]+)\.meta_key = '[^']+'/",
 			"{$wpdb->xpostmetacache}.\\1 IS NOT NULL",
+			$sql['where']
+		);
+
+		// Fix any mangled CASTs
+		$sql['where'] = preg_replace(
+			"/CAST\({$wpdb->xpostmetacache}.([^.]+)\.meta_value/",
+			"CAST({$wpdb->xpostmetacache}.\\1",
 			$sql['where']
 		);
 
