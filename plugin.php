@@ -84,6 +84,13 @@ class xPostMetaCache {
 			$sql['where']
 		);
 
+		// BETWEEN
+		$sql['where'] = preg_replace(
+			"/{$wpdb->xpostmetacache}\.([^.]+)\.meta_key ((NOT)? BETWEEN)/",
+			"{$wpdb->xpostmetacache}.\\1 \\2",
+			$sql['where']
+		);
+
 		// Fix any mangled CASTs
 		$sql['where'] = preg_replace(
 			"/CAST\({$wpdb->xpostmetacache}.([^.]+)\.meta_value/",
