@@ -48,7 +48,11 @@ class xPostMetaCache {
 	function meta_query_find_compatible_table_alias( $alias, $clause, $parent_query, $meta_query ) {
 		global $wpdb;
 
-		if ( isset( $clause['key'] ) && isset( $this->fields[ $clause['key'] ] ) ) {
+		if (
+			isset( $clause['key'] ) &&
+			isset( $this->fields[ $clause['key'] ] ) &&
+			( ! isset( $clause['compare_key'] ) || '=' === $clause['compare_key'] )
+		) {
 			if ( $alias ) {
 				$this->useless_joins[ $alias ] = true;
 			}
