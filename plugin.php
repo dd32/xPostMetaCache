@@ -102,7 +102,7 @@ class xPostMetaCache {
 			$sql['where']
 		);
 
-		if ( false !== strpos( $sql['where'] ) ) {
+		if ( false !== strpos( $sql['where'], $wpdb->xpostmetacache ) ) {
 			$sql['join'] .= " LEFT JOIN $wpdb->xpostmetacache ON ( {$wpdb->posts}.ID = {$wpdb->xpostmetacache}.post_id  )";
 		}
 
