@@ -53,6 +53,9 @@ class xPostMetaCache {
 			if ( $alias ) {
 				$this->useless_joins[ $alias ] = true;
 			}
+
+			add_filter( 'posts_orderby', [ $this, 'posts_orderby' ] );
+
 			return $wpdb->xpostmetacache . '.' . $clause['key'];
 		}
 
@@ -90,6 +93,16 @@ class xPostMetaCache {
 
 	}
 
+	function posts_orderby( $orderby ) {
+		global $wpdb;
+
+		// Handle an orderby on an affected field.
+		return preg_replace(
+			"/{$wpdb->xpostmetacache}\.([^.]+)\.meta_value/",
+			"{$wpdb->xpostmetacache}.\\1",
+			$orderby
+		);
+	}
 
 	public function create_tables() {
 		global $wpdb;
