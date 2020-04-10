@@ -116,8 +116,8 @@ class xPostMetaCache {
 
 		// Handle an orderby on an affected field.
 		return preg_replace(
-			"/{$wpdb->xpostmetacache}\.([^.]+)\.meta_value/",
-			"{$wpdb->xpostmetacache}.\\1",
+			"/({$wpdb->xpostmetacache}\.[^.]+)\.meta_value/",
+			"\\1",
 			$orderby
 		);
 	}
