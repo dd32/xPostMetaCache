@@ -68,38 +68,38 @@ class xPostMetaCache {
 	public function get_meta_sql( $sql, $meta_queries, $type, $primary_table, $primary_id_column, $context ) {
 		global $wpdb;
 
-		// The table aliases should have been set above.
+		// Handle most Meta compares
 		$sql['where'] = preg_replace(
-			"/{$wpdb->xpostmetacache}\.[^.]+\.meta_key = '(.+?)' AND {$wpdb->xpostmetacache}\.[^.]+\.meta_value(.+)/",
-			"{$wpdb->xpostmetacache}.\\1 \\2",
+			"/({$wpdb->xpostmetacache}\.[^.]+)\.meta_key = '[^']+' AND {$wpdb->xpostmetacache}\.[^.]+\.meta_value(.+)/",
+			"\\1 \\2",
 			$sql['where']
 		);
 
 		// NOT EXISTS
 		$sql['where'] = preg_replace(
-			"/{$wpdb->xpostmetacache}\.([^.]+)\.post_id (IS NULL)/",
-			"{$wpdb->xpostmetacache}.\\1 \\2",
+			"/({$wpdb->xpostmetacache}\.[^.]+)\.post_id (IS NULL)/",
+			"\\1 \\2",
 			$sql['where']
 		);
 
 		// EXISTS
 		$sql['where'] = preg_replace(
-			"/{$wpdb->xpostmetacache}\.([^.]+)\.meta_key = '[^']+'/",
-			"{$wpdb->xpostmetacache}.\\1 IS NOT NULL",
+			"/({$wpdb->xpostmetacache}\.[^.]+)\.meta_key = '[^']+'/",
+			"\\1 IS NOT NULL",
 			$sql['where']
 		);
 
 		// BETWEEN
 		$sql['where'] = preg_replace(
-			"/{$wpdb->xpostmetacache}\.([^.]+)\.meta_key ((NOT)? BETWEEN)/",
-			"{$wpdb->xpostmetacache}.\\1 \\2",
+			"/({$wpdb->xpostmetacache}\.[^.]+)\.meta_key(( NOT)? BETWEEN)/",
+			"\\1 \\2",
 			$sql['where']
 		);
 
 		// Fix any mangled CASTs
 		$sql['where'] = preg_replace(
-			"/CAST\({$wpdb->xpostmetacache}.([^.]+)\.meta_value/",
-			"CAST({$wpdb->xpostmetacache}.\\1",
+			"/CAST\(({$wpdb->xpostmetacache}.[^.]+)\.meta_value/",
+			"CAST(\\1",
 			$sql['where']
 		);
 
